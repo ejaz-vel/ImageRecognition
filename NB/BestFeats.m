@@ -14,8 +14,8 @@ F = horzcat(F1,F2,F3,F4,F5);
 %This performs the PCA step
 V = var(F,[],2);
 %Alpha selected based on maximum variance in a particular feature
-alpha = zeros(150,1);
-for j = 1:150
+alpha = zeros(1000,1);
+for j = 1:1000
     [~,alpha(j)] = max(V);
     V(alpha(j)) = 0;
 end

@@ -5,7 +5,7 @@
 %Output is classifiers
 function [t] = NBClassify(xTest, M, V, p)
 [dim1,dim2] = size(M);
-
+[dataSize, featureSize] = size(xTest)
 if dim1 > length(p)
 V = V';
 M = M';
@@ -16,7 +16,7 @@ d1 = dim1;
 d2 = length(p);
 end
 
-for k = 1:length(xTest)
+for k = 1:dataSize
     for i = 1:d1
         YGivenX = 1;
         for j = 1:d2

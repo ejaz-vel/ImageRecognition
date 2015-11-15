@@ -2,7 +2,7 @@
 %Computes the class probility P
 %The Mean matrix M
 %The variance matrix V
-function [P,M,V] = NB_init(Feats,Labels)
+function [P,M,V] = NBTrain(Feats,Labels)
 
 X1 = [];X2 = [];X3 = [];X4 = [];X5 = [];X6 = [];X7 = [];X8 = [];X9 = [];X0 = [];
 P = zeros(10,1);

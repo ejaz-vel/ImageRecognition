@@ -1,7 +1,7 @@
 % Compute a Features
 
 function [Feats] = ComputeFeats()
-load('../HOG_Features_4.mat');
+load('HOG_Features.mat');
 
 Feats = [];
 

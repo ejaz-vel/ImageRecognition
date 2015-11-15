@@ -1,7 +1,7 @@
 %This is an alternative function to using Compute feats
-function [Feats] = BestFeats();
+function [Feats] = BestFeats()
 
-load('../HOG_Features_4.mat');
+load('HOG_Features.mat');
 
 F1 = cell2mat(Features(1));
 F2 = cell2mat(Features(2));

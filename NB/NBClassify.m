@@ -4,12 +4,12 @@
 %class probability P
 %Output is classifiers
 function [t] = NBClassify(xTest, M, V, p)
-[dim1,dim2] = size(M)
+[dim1,dim2] = size(M);
 
 if dim1 > length(p)
 V = V';
 M = M';
-d1 = length(p) 
+d1 = length(p);
 d2 = dim1;
 else
 d1 = dim1;

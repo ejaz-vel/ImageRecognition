@@ -13,7 +13,7 @@ function [Feats] = BestFeats()
     
     % Perform Mean Normalization on the Feature Matrix.
     % Each pixel can have intensity values from 0 - 255
-    for i = 1 : length(featureSize)
+    for i = 1 : featureSize
         Features(:,i) = (Features(:,i) - mean(Features(:,i))) ./ 255;
     end
     
@@ -30,7 +30,7 @@ function [Feats] = BestFeats()
         sumOfEigen = sumOfEigen + S(i,i);
     end
     
-    % Find the minimum dimensions to retain 95% Variance
+    % Find the minimum dimensions to retain 90% Variance
     dimension = 100;
     for i = 100 : length(S)
         sum = 0;
@@ -38,7 +38,7 @@ function [Feats] = BestFeats()
             sum = sum + S(j,j);
         end
         varianceRetained = sum / sumOfEigen;
-        if varianceRetained > 0.95
+        if varianceRetained > 0.80
             dimension = i;
             break;
         end

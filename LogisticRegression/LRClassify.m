@@ -1,4 +1,4 @@
-function [ prediction ] = LRClassify( weights, xTest )
+function [ prediction,probability ] = LRClassify( weights, xTest )
     [dataSize, featureSize] = size(xTest);
     xTest = [ones(dataSize, 1) xTest];
     

@@ -5,23 +5,28 @@ function [weights, loss] = LRTrain(xTrain, yTrain)
     xTrain = [ones(dataSize, 1) xTrain];
 	weights = zeros(labelSize,featureSize + 1);
     loss = zeros(labelSize,1);
-    regularizationRate = 0.5;
+    
+    % Learning Parameters. Tweak these values to get optimum accuracy
+    regularizationRate = 0.4;
+    initialLearningRate = 10;
+    stableLearningRate = 0.5;
+    thresholdDifference = 0.0005;
 	
     for label = 1 : labelSize
         % Take a large step initially.
-        learningRate = 12;
+        learningRate = initialLearningRate;
         output = (yTrain == (label-1));
         previousLoss = 1;
         iter = 0;
-        while ((previousLoss - loss(label)) > 0.0005)
+        while ((previousLoss - loss(label)) > thresholdDifference)
             if iter ~= 0
                 previousLoss = loss(label);
             end
             iter = iter + 1;
             
             % Gradually decrease the step size for each iteration.
-            % Let the learning rate saturate at some point.
-            if learningRate > 1
+            % Let the learning rate stabilize at some point.
+            if learningRate > stableLearningRate
                 learningRate = learningRate/iter;
             end
             

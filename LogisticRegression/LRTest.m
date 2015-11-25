@@ -13,6 +13,6 @@ function [ Accuracy ] = LRTest()
     
     % Calculate Accuracy
     actualClass = yTrain(4501:5000);
-    Accuracy = length(find(predictedClass == actualClass)) / 500;
+    Accuracy = (length(find(predictedClass == actualClass)) / 500) * 100;
 end
 

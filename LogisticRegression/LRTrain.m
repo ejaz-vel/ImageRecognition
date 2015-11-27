@@ -1,16 +1,12 @@
-function [weights, loss] = LRTrain(xTrain, yTrain)
+function [weights, loss] = LRTrain(xTrain, yTrain, regularizationRate, ...
+                                initialLearningRate, stableLearningRate, ...
+                                thresholdDifference)
 	[dataSize, featureSize] = size(xTrain);
 	labelSize = length(unique(yTrain));
 	
     xTrain = [ones(dataSize, 1) xTrain];
 	weights = zeros(labelSize,featureSize + 1);
     loss = zeros(labelSize,1);
-    
-    % Learning Parameters. Tweak these values to get optimum accuracy
-    regularizationRate = 0.4;
-    initialLearningRate = 10;
-    stableLearningRate = 0.5;
-    thresholdDifference = 0.0005;
 	
     for label = 1 : labelSize
         % Take a large step initially.
@@ -33,7 +29,7 @@ function [weights, loss] = LRTrain(xTrain, yTrain)
             % initialization of the params
             gradient = zeros(featureSize + 1,1);
             loss(label) = 0;
-            for i = 1 : dataSize,
+            for i = 1 : dataSize
                 hypothesis = xTrain(i,:) * weights(label,:)';
                 prediction = sigmoid(hypothesis);
                 y = output(i);
@@ -47,10 +43,10 @@ function [weights, loss] = LRTrain(xTrain, yTrain)
                 linearError = prediction - y;
                 % Maintain a running sum of the gradient of the loss func
                 gradient = gradient + ((xTrain(i,:)' .* linearError) + (regularizationRate .* gradient)) ./ dataSize;
-            end;
+            end
             loss
              % Update the parameters via the gradient descent update rule
             weights(label,:) = weights(label,:) - (learningRate .* gradient');	
-        end;
-    end;
+        end
+    end
 end

@@ -1,4 +1,6 @@
-function [ weights1, weights2, loss ] = NNTrain(xTrain, yTrain, hiddelLayerSize, learningRate, regularizationRate)
+function [ weights1, weights2, loss ] = NNTrain(xTrain, yTrain, ...
+                                        hiddelLayerSize, learningRate, ...
+                                        regularizationRate, thresholdDifference)
     [dataSize, featureSize] = size(xTrain);
     labelSize = length(unique(yTrain));
     xTrain = [ones(dataSize, 1) xTrain];
@@ -12,7 +14,6 @@ function [ weights1, weights2, loss ] = NNTrain(xTrain, yTrain, hiddelLayerSize,
     % Tweak these params to alter the model parameters
     weights1 = randInitializeWeights(featureSize, hiddelLayerSize);
     weights2 = randInitializeWeights(hiddelLayerSize, labelSize);
-    thresholdDifference = 0.0005;
     previousLoss = 10;
     loss = 0;
     

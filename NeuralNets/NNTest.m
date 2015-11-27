@@ -6,12 +6,15 @@ function [ Accuracy ] = NNTest()
     [yTrain] = LoadLabels();
     
     % Tweak these parameters to get optimum accuracy
-    regularizationRate = 0.4;
+    thresholdDifference = 0.001;
+    regularizationRate = 0.5;
     learningRate = 1;
-    hiddenNodes = 25;
+    hiddenNodes = 50;
     
     % Train the Neural Net.
-    [ weights1, weights2, loss ] = NNTrain(xTrain(1:4500,:), yTrain(1:4500), hiddenNodes, learningRate, regularizationRate);
+    [ weights1, weights2, loss ] = NNTrain(xTrain(1:4500,:), yTrain(1:4500), ...
+                                     hiddenNodes, learningRate, ...
+                                     regularizationRate, thresholdDifference);
     
     % Classify the images
     [ predictedClass ] = NNClassify(weights1, weights2, xTrain(4501:5000,:));

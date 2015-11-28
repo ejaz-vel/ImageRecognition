@@ -1,7 +1,9 @@
 function [ Accuracy ] = LRTest()
 
     % Extract Features From the Images
-    [xTrain] = BestFeats();
+    [Features] = LoadImages();
+    [xTrain, projection] = BestFeats(Features);
+    
     % Load The Image Classes
     [yTrain] = LoadLabels();
     
@@ -12,9 +14,12 @@ function [ Accuracy ] = LRTest()
     thresholdDifference = 0.0005;
     
     % Train the classifier using one vs all methodology
-    [weights, loss] = LRTrain(xTrain(1:4500,:), yTrain(1:4500), regularizationRate, ...
+    [weights, loss] = LRTrain(xTrain(1:5000,:), yTrain(1:5000), regularizationRate, ...
                         initialLearningRate, stableLearningRate, thresholdDifference);
-    
+                    
+    Model1 = struct('weights', weights, 'projection', projection);
+    save('Model1.mat', 'Model1');                
+                    
     % Classify the images
     predictedClass = LRClassify(weights, xTrain(4501:5000,:));
     

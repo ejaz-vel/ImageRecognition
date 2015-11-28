@@ -1,14 +1,5 @@
 %This is an alternative function to using Compute feats
-function [Feats] = BestFeats()
-    load('HOG_Features.mat');
-    
-    F1 = cell2mat(Features(1));
-    F2 = cell2mat(Features(2));
-    F3 = cell2mat(Features(3));
-    F4 = cell2mat(Features(4));
-    F5 = cell2mat(Features(5));
-    Features = horzcat(F1,F2,F3,F4,F5);
-    Features = Features';
+function [ Feats, projection ] = BestFeats(Features)
     [dataSize, featureSize] = size(Features);
     
     % Perform Mean Normalization on the Feature Matrix.
@@ -25,19 +16,21 @@ function [Feats] = BestFeats()
     [U, S, V] = svd(sigma);
     
     % Find Some of All Eigen Values
-    sumOfEigen = 0;
-    for i = 1 : length(S)
-        sumOfEigen = sumOfEigen + S(i,i);
+    numOfEigenValues = length(S);
+    sumOfEigen = zeros(numOfEigenValues,1);
+    for i = 1 : numOfEigenValues
+        if i == 1
+            sumOfEigen(i) = S(i,i);
+        else
+            sumOfEigen(i) = sumOfEigen(i-1) + S(i,i);
+        end
     end
     
     % Find the minimum dimensions to retain 90% Variance
     dimension = 100;
-    for i = 100 : length(S)
-        sum = 0;
-        for j = 1 : i
-            sum = sum + S(j,j);
-        end
-        varianceRetained = sum / sumOfEigen;
+    for i = 100 : numOfEigenValues
+        sum = sumOfEigen(i);
+        varianceRetained = sum / sumOfEigen(numOfEigenValues);
         if varianceRetained > 0.90
             dimension = i;
             break;
@@ -45,5 +38,6 @@ function [Feats] = BestFeats()
     end
     
     % Project the Features on the new dimension
-    Feats = Features * U(:,1:dimension);
+    projection = U(:,1:dimension);
+    Feats = Features * projection;
 end

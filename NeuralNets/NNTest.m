@@ -1,7 +1,9 @@
 function [ Accuracy ] = NNTest()
 
     % Extract Features From the Images
-    [xTrain] = BestFeats();
+    [Features] = LoadImages();
+    [xTrain, projection] = BestFeats(Features);
+    
     % Load The Image Classes
     [yTrain] = LoadLabels();
     
@@ -12,9 +14,13 @@ function [ Accuracy ] = NNTest()
     hiddenNodes = 50;
     
     % Train the Neural Net.
-    [ weights1, weights2, loss ] = NNTrain(xTrain(1:4500,:), yTrain(1:4500), ...
+    [ weights1, weights2, loss ] = NNTrain(xTrain(1:5000,:), yTrain(1:5000), ...
                                      hiddenNodes, learningRate, ...
                                      regularizationRate, thresholdDifference);
+    
+    Model = struct('weights1', weights1, 'weights2', weights2, ...
+                'projection', projection);
+    save('Model.mat', 'Model');
     
     % Classify the images
     [ predictedClass ] = NNClassify(weights1, weights2, xTrain(4501:5000,:));

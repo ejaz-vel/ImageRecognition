@@ -1,4 +1,4 @@
-function [Y] = classify(Model, X)    
+function [Y] = classify2(Model, X)    
     [Feat] =  getImages(X);
 
     M = Model.M;

@@ -1,6 +1,6 @@
 function [Y] = classify(Model, X)    
     [Feat] =  getImages(X);
-    load('Model.mat');
+
     M = Model.M;
     [Y] = kmeansClassify(M,Feat);
     Y = Y - 1;

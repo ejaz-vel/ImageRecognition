@@ -1,14 +1,14 @@
 function [ Y ] = classify( Model, X )
 
     % Extract Features from the test data
-    data = getImages(X);
+    %data = getImages(X);
     
     weights1 = Model.weights1;
     weights2 = Model.weights2;
     projection = Model.projection;
     
     % Project the test data on the new dimension
-    xTest = getFeatures(data, projection);
+    xTest = getFeatures(X, projection);
     
     % Classify the images
     Y = NNClassify(weights1, weights2, xTest);
@@ -35,5 +35,6 @@ function [Feats] = getFeatures(Features, projection)
     end
     
     % Project the Features on the new dimension
-    Feats = Features * projection;
+    Feats = projection * Features';
+    Feats = Feats';
 end

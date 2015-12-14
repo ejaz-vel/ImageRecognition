@@ -8,16 +8,16 @@ function [ Accuracy ] = NNTest()
     [yTrain] = LoadLabels();
     
     % Tweak these parameters to get optimum accuracy
-    thresholdDifference = 0.0002;
-    regularizationRate = 0.3;
-    learningRate = 1.3;
-    hiddenNodes = 200;
+    thresholdDifference = 0.0003;
+    regularizationRate = 7;
+    learningRate = 1.2;
+    hiddenNodes = 150;
     
     load('../CIFAR10/data_batch_5.mat');
     xTest = getImages(data);
     
     % Train the Neural Net.
-    [ weights1, weights2, loss ] = NNTrain(xTrain(1:35000,:), yTrain(1:35000), ...
+    [ weights1, weights2, loss ] = NNTrain(xTrain(1:5000,:), yTrain(1:5000), ...
                                     hiddenNodes, learningRate, ...
                                     regularizationRate, thresholdDifference);
     Model = struct('weights1', weights1, 'weights2', weights2, ...

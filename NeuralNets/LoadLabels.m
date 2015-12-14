@@ -9,11 +9,4 @@ for j = 1:5
     Labels = vertcat(Labels,labels);
 end
 
-for j = 1:4
-    num = num2str(j);
-    str = strcat('../CIFAR10/data_batch_',num,'.mat');
-    load(str);
-    Labels = vertcat(Labels,labels);
-end
-
 end

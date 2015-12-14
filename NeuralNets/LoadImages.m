@@ -17,17 +17,5 @@ function [Features] = LoadImages()
         end
     end
     
-    for j = 1:4
-		num = num2str(j);
-		str = strcat('../CIFAR10/data_batch_',num,'.mat');
-		load(str);
-		for i = 1:size(data,1)
-			image = reshape(data(i,:),[32,32,3]);
-			image = imresize(image,4);
-			feat = extract_feature(image);
-			Features = horzcat(Features,feat);
-        end
-    end
-    
     Features = Features';
 end

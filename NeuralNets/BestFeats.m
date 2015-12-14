@@ -1,4 +1,3 @@
-%This is an alternative function to using Compute feats
 function [ Feats, projection ] = BestFeats(Features)
     [dataSize, featureSize] = size(Features);
     
@@ -10,7 +9,7 @@ function [ Feats, projection ] = BestFeats(Features)
     
     % Get the Covariance Matrix.
     % We will know how each pixel is correlated with other pixels.
-    sigma = 0.5 .* (Features' * Features);
+    sigma = (1/dataSize) .* (Features' * Features);
     
     % Find The Singular Value Decomposition of the covariance Matrix
     [U, S, V] = svd(sigma);
@@ -26,18 +25,21 @@ function [ Feats, projection ] = BestFeats(Features)
         end
     end
     
-    % Find the minimum dimensions to retain 90% Variance
+    % Find the minimum dimensions to retain 95% Variance
     dimension = 100;
     for i = 100 : numOfEigenValues
         sum = sumOfEigen(i);
         varianceRetained = sum / sumOfEigen(numOfEigenValues);
-        if varianceRetained > 0.90
+        if varianceRetained > 0.95
             dimension = i;
             break;
         end
     end
     
     % Project the Features on the new dimension
-    projection = U(:,1:dimension);
-    Feats = Features * projection;
+    %projection = U(:,1:dimension);
+    %Feats = Features * projection;
+    projection = U(:,1:dimension)';
+    Feats = projection * Features';
+    Feats = Feats';
 end

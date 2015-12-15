@@ -30,15 +30,13 @@ function [ Feats, projection ] = BestFeats(Features)
     for i = 100 : numOfEigenValues
         sum = sumOfEigen(i);
         varianceRetained = sum / sumOfEigen(numOfEigenValues);
-        if varianceRetained > 0.95
+        if varianceRetained > 0.99
             dimension = i;
             break;
         end
     end
     
     % Project the Features on the new dimension
-    %projection = U(:,1:dimension);
-    %Feats = Features * projection;
     projection = U(:,1:dimension)';
     Feats = projection * Features';
     Feats = Feats';

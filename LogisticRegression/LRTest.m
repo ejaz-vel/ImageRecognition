@@ -20,11 +20,11 @@ function [ Accuracy ] = LRTest()
     Model1 = struct('weights', weights, 'projection', projection);
     save('Model1.mat', 'Model1');                
                     
-    % Classify the images
-    predictedClass = LRClassify(weights, xTrain(4501:5000,:));
+    load('../CIFAR10/data_batch_5.mat');
+    predictedClass = classify1( Model1, data );
     
     % Calculate Accuracy
-    actualClass = yTrain(4501:5000);
-    Accuracy = (length(find(predictedClass == actualClass)) / 500) * 100;
+    actualClass = labels;
+    Accuracy = (length(find(predictedClass == actualClass)) / 10000) * 100;
 end
 

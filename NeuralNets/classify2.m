@@ -1,4 +1,4 @@
-function [ Y ] = classify( Model, X )
+function [ Y ] = classify2( Model, X )
 
     % Extract Features from the test data
     data = getImages(X);
@@ -11,7 +11,7 @@ function [ Y ] = classify( Model, X )
     xTest = getFeatures(data, projection);
     
     % Classify the images
-    Y = NNClassify(weights1, weights2, xTest);
+    [Y, ~] = NNClassify(weights1, weights2, xTest);
 end
 
 function [Features] =  getImages(data)
@@ -26,7 +26,7 @@ function [Features] =  getImages(data)
 end
 
 function [Feats] = getFeatures(Features, projection)
-    [dataSize, featureSize] = size(Features);
+    featureSize = size(Features,2);
     
     % Perform Mean Normalization on the Feature Matrix.
     % Each pixel can have intensity values from 0 - 255
@@ -35,5 +35,6 @@ function [Feats] = getFeatures(Features, projection)
     end
     
     % Project the Features on the new dimension
-    Feats = Features * projection;
+    Feats = projection * Features';
+    Feats = Feats';
 end

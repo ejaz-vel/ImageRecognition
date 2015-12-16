@@ -37,12 +37,15 @@ function [weights, loss] = LRTrain(xTrain, yTrain, regularizationRate, ...
                 % Keep a running count the value of the loss function
                 % This loss function should decrease with each iteration
                 regularizationTerm = regularizationRate * ((sum(gradient .^ 2)) / dataSize);
+                regularizationTerm(1,:) = 0;
                 loss(label) = loss(label) - ((y * log(prediction)) + ((1 - y) * log(1-prediction))) / dataSize;
                 loss(label) = loss(label) + regularizationTerm;
                 
                 linearError = prediction - y;
                 % Maintain a running sum of the gradient of the loss func
-                gradient = gradient + ((xTrain(i,:)' .* linearError) + (regularizationRate .* gradient)) ./ dataSize;
+                regularize = regularizationRate .* gradient;
+                regularize(1,:) = 0;
+                gradient = gradient + (((xTrain(i,:)' .* linearError) + regularize) ./ dataSize);
             end
             loss
              % Update the parameters via the gradient descent update rule

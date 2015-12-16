@@ -10,7 +10,7 @@ function [ Y ] = classify1( Model, X )
     xTest = getFeatures(data, projection);
     
     % Classify the images
-    [Y, probability] = LRClassify( weights, xTest );
+    [Y, ~] = LRClassify( weights, xTest );
 end
 
 function [Features] =  getImages(data)
@@ -25,7 +25,7 @@ function [Features] =  getImages(data)
 end
 
 function [Feats] = getFeatures(Features, projection)
-    [dataSize, featureSize] = size(Features);
+    featureSize = size(Features,2);
     
     % Perform Mean Normalization on the Feature Matrix.
     % Each pixel can have intensity values from 0 - 255
@@ -34,5 +34,6 @@ function [Feats] = getFeatures(Features, projection)
     end
     
     % Project the Features on the new dimension
-    Feats = Features * projection;
+    Feats = projection * Features';
+    Feats = Feats';
 end

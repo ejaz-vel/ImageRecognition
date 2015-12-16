@@ -1,5 +1,5 @@
-function [ Feats, projection ] = BestFeats(Features)
-    [dataSize, featureSize] = size(Features);
+function [ Feats, projection ] = BestFeats(Features, varianceThreshold)
+    featureSize = size(Features,2);
     
     % Perform Mean Normalization on the Feature Matrix.
     % Each pixel can have intensity values from 0 - 255
@@ -9,12 +9,12 @@ function [ Feats, projection ] = BestFeats(Features)
     
     % Get the Covariance Matrix.
     % We will know how each pixel is correlated with other pixels.
-    sigma = (1/dataSize) .* (Features' * Features);
+    sigma = 0.5 .* (Features' * Features);
     
     % Find The Singular Value Decomposition of the covariance Matrix
-    [U, S, V] = svd(sigma);
+    [U, S, ~] = svd(sigma);
     
-    % Find Some of All Eigen Values
+    % Find Sum of All Eigen Values
     numOfEigenValues = length(S);
     sumOfEigen = zeros(numOfEigenValues,1);
     for i = 1 : numOfEigenValues
@@ -25,12 +25,12 @@ function [ Feats, projection ] = BestFeats(Features)
         end
     end
     
-    % Find the minimum dimensions to retain 95% Variance
+    % Find the minimum dimensions to retain the varianceThreshold
     dimension = 100;
     for i = 100 : numOfEigenValues
         sum = sumOfEigen(i);
         varianceRetained = sum / sumOfEigen(numOfEigenValues);
-        if varianceRetained > 0.99
+        if varianceRetained > varianceThreshold
             dimension = i;
             break;
         end

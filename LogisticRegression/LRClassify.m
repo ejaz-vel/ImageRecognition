@@ -1,5 +1,5 @@
-function [ prediction,probability ] = LRClassify( weights, xTest )
-    [dataSize, featureSize] = size(xTest);
+function [ prediction, value ] = LRClassify( weights, xTest )
+    [dataSize, ~] = size(xTest);
     
     % Add the column of ones for the bias feature
     xTest = [ones(dataSize, 1) xTest];
